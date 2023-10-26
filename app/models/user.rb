@@ -24,7 +24,6 @@ class User < ApplicationRecord
       token.token_type = :email_validation
       token.value = SecureRandom.urlsafe_base64
       token.expires_at = Time.current + 24.hours
-      puts token.inspect
       if token.valid?
         token.save
         # Send email validation email

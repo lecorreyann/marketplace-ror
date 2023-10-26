@@ -2,4 +2,12 @@
 <div>
   <%# Say hello to used and show first_name if logged session %>
   <p>Welcome, <%= @current_user&.first_name || 'Guest' %>!</p>
+  <%# Make a logout %>
+  <%# If logged session %>
+  <% if @current_user %>
+    <%= button_to 'Logout', users_sign_out_delete_path, method: :delete, class: 'btn btn-link p-0' %>
+    <%# If not logged session %>
+  <% else %>
+    <%= link_to 'Login', users_sign_in_path %>
+  <% end %>
 </div>

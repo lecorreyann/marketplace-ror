@@ -7,9 +7,10 @@ class UsersController < ApplicationController
 
   def sign_in_post
     @user = User.new
-    puts params.inspect
-    # Find the user by email
+
+    # Find the user by email with access token_type access and refresh token
     @user = User.find_by(email: params[:user][:email])
+
     # Check if user exists
     if @user.nil?
       # User does not exist, render add error to email field
@@ -17,35 +18,37 @@ class UsersController < ApplicationController
       @user.errors.add(:email, "not found")
       return render 'users/auth/sign_in', status: :unprocessable_entity
     end
-    # Check if user's password is correct
-    if @user.authenticate(params[:user][:password])
-      # User's password is correct
-      # Check if user's email has been validated
-      if @user.email_validated_at.nil?
-        # User's email has not been validated, render
-        return render 'users/email_validation/email_not_validated', status: :unprocessable_entity
-      end
-      # User's email has been validated
-      # Create access token
-      token = Token.new(user: @user)
-      token.token_type = :access
-      token.value = SecureRandom.urlsafe_base64
-      token.expires_at = Time.current + 15.minutes
-      token.save
-      # Create refresh token
-      token = Token.new(user: @user)
-      token.token_type = :refresh
-      token.value = SecureRandom.urlsafe_base64
-      token.expires_at = Time.current + 7.days
-      token.save
-      # Start session
-      session[:user_id] = @user.id
-      return redirect_to root_path, notice: "Login successful and redirected to the home page"
-    else
-      # User's password is incorrect, render
+
+    # Check if user's password is incorrect
+    if !@user.authenticate(params[:user][:password])
       @user.errors.add(:password, "is incorrect")
       return render 'users/auth/sign_in', status: :unprocessable_entity
     end
+
+    # Check if user's email has been validated
+    if @user.email_validated_at.nil?
+      # User's email has not been validated, render
+      return render 'users/email_validation/email_not_validated', status: :unprocessable_entity
+    end
+
+    # Check user's access token
+    tokens_controller = TokensController.new
+    last_access_token = Token.where(user: @user, token_type: :access).last
+    if last_access_token.nil? || last_access_token.expires_at < Time.current
+      # Create access token
+      access_token = tokens_controller.create_access_token(user: @user)
+    end
+
+    # Check user's refresh token
+    last_refresh_token = Token.where(user: @user, token_type: :refresh).last
+    if last_refresh_token.nil? || last_refresh_token.expires_at < Time.current
+      # Create refresh token
+      refresh_token = tokens_controller.create_refresh_token(user: @user)
+    end
+
+    # Start session
+    session[:user_id] = @user.id
+    return redirect_to root_path, notice: "Login successful and redirected to the home page"
 
   end
 
@@ -64,6 +67,20 @@ class UsersController < ApplicationController
       # User registration failed, re-render the registration form
       render 'users/auth/sign_up', status: :unprocessable_entity
     end
+  end
+
+  def sign_out
+    # Find the user by the session user id
+    @user = User.find(session[:user_id])
+    # Find the user's access token
+    token = Token.where(user: @user, token_type: :access).last
+    # Revoke the user's access token
+    token.revoked_at = Time.current
+    token.save
+    # Delete the user's session
+    session.delete(:user_id)
+    # Redirect to the home page
+    redirect_to root_path, notice: "You have been signed out"
   end
 
   def validate_email
