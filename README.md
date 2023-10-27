@@ -1,24 +1,15 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## 💚 Auth
 
-Things you may want to cover:
+- ✅ Sign Up
+- ✅ Validation Email
+- ✅ Sign In
+- ✅ Forgot Password
+- ✅ Reset Password
 
-* Ruby version
+## Oauth
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+- ✅ Acess token
+- ✅ Refresh token
+- ❌ Client
