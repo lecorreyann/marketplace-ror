@@ -24,7 +24,13 @@
       </div>
     <% end %>
   </div>
+  <%# Link forgot password %>
+  <div class="form-group">
+    <%= link_to 'Forgot password?', users_forgot_password_path %>
+  </div>
   <div class="actions">
     <%= f.submit 'Sign In' %>
   </div>
 <% end %>
+<%# If user doesn't have account, invite to sign up %>
+<p>Don't have an account? <%= link_to 'Sign Up', users_sign_up_path %></p>

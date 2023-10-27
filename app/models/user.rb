@@ -14,6 +14,8 @@ class User < ApplicationRecord
 
   after_create :generate_email_validation_token
 
+  attr_accessor :reset_password_token
+
   private
 
   def generate_email_validation_token

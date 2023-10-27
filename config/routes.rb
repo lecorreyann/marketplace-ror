@@ -14,4 +14,8 @@ Rails.application.routes.draw do
   post 'sign-up', to: 'users#sign_up_post', as: :users_sign_up_post
   get 'validate-email', to: 'users#validate_email', as: :users_validate_email
   delete 'sign-out', to: 'users#sign_out', as: :users_sign_out_delete
+  get 'forgot-password', to: 'users#forgot_password_show', as: :users_forgot_password
+  post 'forgot-password', to: 'users#forgot_password_post', as: :users_forgot_password_post
+  get 'reset-password', to: 'users#reset_password_show', as: :users_reset_password
+  patch 'reset-password', to: 'users#reset_password_patch', as: :users_reset_password_patch
 end
