@@ -13,3 +13,14 @@
 - ✅ Acess token
 - ✅ Refresh token
 - ❌ Client
+
+## Roles & Permissions
+
+- ❌ Roles
+- - ✅ Migration
+- - ✅ Model
+- - ❌ CRUD
+- ❌ Permissions
+- - ✅ Migration
+- - ✅ Model
+- - ❌ CRUD

@@ -14,6 +14,12 @@ class User < ApplicationRecord
 
   after_create :generate_email_validation_token
 
+  # User has many roles through user_roles
+  has_many :user_roles
+  has_many :roles, through: :user_roles
+  has_many :role_permissions, through: :roles
+  has_many :permissions, through: :role_permissions
+
   attr_accessor :reset_password_token
 
   private
