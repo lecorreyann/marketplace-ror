@@ -16,11 +16,5 @@
 
 ## Roles & Permissions
 
-- ❌ Roles
-- - ✅ Migration
-- - ✅ Model
-- - ❌ CRUD
-- ❌ Permissions
-- - ✅ Migration
-- - ✅ Model
-- - ❌ CRUD
+- ✅ Roles
+- ✅ Permissions

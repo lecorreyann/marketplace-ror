@@ -1,0 +1,10 @@
+<h1>Create a New Permission</h1>
+<%= form_for @permission do |f| %>
+  <div class="field">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Create Permission" %>
+  </div>
+<% end %>

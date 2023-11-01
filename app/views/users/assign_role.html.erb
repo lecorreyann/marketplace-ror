@@ -1,0 +1,22 @@
+<h1>Assign Role to User</h1>
+<%= form_for @user, url: users_assign_role_patch_path, method: :patch  do |f| %>
+  <div class="field">
+    <%= f.label :last_name %>
+    <%= f.text_field :last_name, disabled: true %>
+  </div>
+  <div class="field">
+    <%= f.label :first_name %>
+    <%= f.text_field :first_name, disabled: true %>
+  </div>
+  <div class="field">
+    <%= f.label :email %>
+    <%= f.text_field :email, disabled: true %>
+  </div>
+  <div class="field">
+    <%= f.label :role_id %>
+    <%= f.collection_select :role_ids, @roles, :id, :name, include_blank: "Select a Role" %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Assign Role" %>
+  </div>
+<% end %>

@@ -18,4 +18,15 @@ Rails.application.routes.draw do
   post 'forgot-password', to: 'users#forgot_password_post', as: :users_forgot_password_post
   get 'reset-password', to: 'users#reset_password_show', as: :users_reset_password
   patch 'reset-password', to: 'users#reset_password_patch', as: :users_reset_password_patch
+  get 'users', to: 'users#index', as: :users
+  get 'users/:id/assign_role', to: 'users#assign_role', as: :users_assign_role
+  patch 'users/:id/assign_role', to: 'users#assign_role_patch', as: :users_assign_role_patch
+
+
+  # resources :roles
+  resources :roles
+  get 'roles/:id/assign_permissions', to: 'roles#assign_permissions', as: :roles_assign_permissions
+  patch 'roles/:id/assign_permissions', to: 'roles#assign_permissions_patch', as: :roles_assign_permissions_patch
+  resources :permissions
+
 end

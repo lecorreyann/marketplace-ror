@@ -1,5 +1,23 @@
 class UsersController < ApplicationController
 
+  def index
+    @users = User.all
+  end
+
+  def assign_role
+    @user = User.find(params[:id])
+    @roles = Role.all
+  end
+
+  def assign_role_patch
+    @user = User.find(params[:id])
+    if @user.update(user_params)
+      redirect_to users_path, notice: "Role assigned to user successfully."
+    else
+      render 'assign_role'
+    end
+  end
+
   def sign_in_show
     @user = User.new
     render 'users/auth/sign_in'
@@ -211,7 +229,7 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation, :reset_password_token)
+    params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation, :reset_password_token, :role_ids)
   end
 
 

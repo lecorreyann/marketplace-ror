@@ -1,0 +1,15 @@
+<!-- app/views/roles/assign_permissions.html.erb -->
+<h1>Assign Permissions to Role</h1>
+<%= form_for @role,  url: roles_assign_permissions_patch_path, method: :patch  do |f| %>
+  <div class="field">
+    <%= f.label :name %>
+    <%= f.text_field :name, disabled: true %>
+  </div>
+  <div class="field">
+    <%= f.label :permission_ids, "Select Permissions" %>
+    <%= f.collection_check_boxes :permission_ids, @permissions, :id, :name %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Assign Permissions" %>
+  </div>
+<% end %>

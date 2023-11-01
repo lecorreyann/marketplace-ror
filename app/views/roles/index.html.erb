@@ -1,0 +1,22 @@
+<h1>List of Roles</h1>
+<ul>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Actions</th>
+        <th>Permissions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @roles.each do |role|  %>
+        <tr>
+          <td><%= role.name %></td>
+          <td>
+            <%= link_to "Assign Permissions", roles_assign_permissions_path(role) %>
+          </td>
+          <td><%= role.permissions.map(&:name).join(', ') %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </ul>
