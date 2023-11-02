@@ -22,6 +22,14 @@ class User < ApplicationRecord
 
   attr_accessor :reset_password_token
 
+  def has_role?(role_name)
+    roles.exists?(name: role_name)
+  end
+
+  def has_permission?(permission_name)
+    permissions.exists(name: permission_name)
+  end
+
   private
 
   def generate_email_validation_token
@@ -45,4 +53,6 @@ class User < ApplicationRecord
   def password_changed?
     password.present? || password_digest_changed?
   end
+
+
 end

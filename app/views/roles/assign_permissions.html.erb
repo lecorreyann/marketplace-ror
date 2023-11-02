@@ -1,6 +1,6 @@
 <!-- app/views/roles/assign_permissions.html.erb -->
 <h1>Assign Permissions to Role</h1>
-<%= form_for @role,  url: roles_assign_permissions_patch_path, method: :patch  do |f| %>
+<%= form_for @role,  url: assign_permissions_patch_role_path, method: :patch  do |f| %>
   <div class="field">
     <%= f.label :name %>
     <%= f.text_field :name, disabled: true %>

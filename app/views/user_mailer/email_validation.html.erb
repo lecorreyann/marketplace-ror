@@ -7,6 +7,6 @@
     <h1>Email Validation</h1>
     <p>Hello <%= @user.first_name %>,</p>
     <p>Please click the link below to validate your email address:</p>
-    <p><a href="<%= users_validate_email_url(token: @token.value) %>">Validate Email</a></p>
+    <p><a href="<%= validate_email_auth_url(token: @token.value) %>">Validate Email</a></p>
   </body>
 </html>

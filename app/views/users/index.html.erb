@@ -17,7 +17,7 @@
         <td><%= user.first_name %></td>
         <td><%= user.email %></td>
         <td>
-          <%= link_to "Assign Role", users_assign_role_path(user) %>
+          <%= link_to "Assign Role", assign_role_user_path(user) %>
         </td>
         <td><%= user.roles.map(&:name).join(', ') %></td>
       </tr>

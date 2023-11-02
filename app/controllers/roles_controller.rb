@@ -1,4 +1,6 @@
 class RolesController < ApplicationController
+  before_action :is_admin
+
   def index
     @roles = Role.all
   end

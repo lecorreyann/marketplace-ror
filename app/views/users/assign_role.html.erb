@@ -1,5 +1,5 @@
 <h1>Assign Role to User</h1>
-<%= form_for @user, url: users_assign_role_patch_path, method: :patch  do |f| %>
+<%= form_for @user, url: assign_role_patch_user_path, method: :patch  do |f| %>
   <div class="field">
     <%= f.label :last_name %>
     <%= f.text_field :last_name, disabled: true %>

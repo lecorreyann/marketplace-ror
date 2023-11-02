@@ -5,9 +5,9 @@
   <%# Make a logout %>
   <%# If logged session %>
   <% if @current_user %>
-    <%= button_to 'Logout', users_sign_out_delete_path, method: :delete, class: 'btn btn-link p-0' %>
+    <%= button_to 'Logout', sign_out_delete_auth_path, method: :delete, class: 'btn btn-link p-0' %>
     <%# If not logged session %>
   <% else %>
-    <%= link_to 'Login', users_sign_in_path %>
+    <%= link_to 'Login', sign_in_auth_path %>
   <% end %>
 </div>

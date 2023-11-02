@@ -3,30 +3,45 @@ Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
-  # root "articles#index"
-  # root "user#sign_up_show"
+
   # root path homepage
   root "home#index"
+
+  # Home route
   get 'home', to: 'home#index', as: :home
-  get 'sign-in', to: 'users#sign_in_show', as: :users_sign_in
-  post 'sign-in', to: 'users#sign_in_post', as: :users_sign_in_post
-  get 'sign-up', to: 'users#sign_up_show', as: :users_sign_up
-  post 'sign-up', to: 'users#sign_up_post', as: :users_sign_up_post
-  get 'validate-email', to: 'users#validate_email', as: :users_validate_email
-  delete 'sign-out', to: 'users#sign_out', as: :users_sign_out_delete
-  get 'forgot-password', to: 'users#forgot_password_show', as: :users_forgot_password
-  post 'forgot-password', to: 'users#forgot_password_post', as: :users_forgot_password_post
-  get 'reset-password', to: 'users#reset_password_show', as: :users_reset_password
-  patch 'reset-password', to: 'users#reset_password_patch', as: :users_reset_password_patch
-  get 'users', to: 'users#index', as: :users
-  get 'users/:id/assign_role', to: 'users#assign_role', as: :users_assign_role
-  patch 'users/:id/assign_role', to: 'users#assign_role_patch', as: :users_assign_role_patch
+
+  # Authentication routes
+  scope do
+    get '/sign-in', to: 'auth#sign_in_show', as: :sign_in_auth
+    post '/sign-in', to: 'auth#sign_in_post', as: :sign_in_post_auth
+    get 'sign-up', to: 'auth#sign_up_show', as: :sign_up_auth
+    post 'sign-up', to: 'auth#sign_up_post', as: :sign_up_post_auth
+    get 'validate-email', to: 'auth#validate_email', as: :validate_email_auth
+    delete 'sign-out', to: 'auth#sign_out_delete', as: :sign_out_delete_auth
+    get 'forgot-password', to: 'auth#forgot_password_show', as: :forgot_password_auth
+    post 'forgot-password', to: 'auth#forgot_password_post', as: :forgot_password_post_auth
+    get 'reset-password', to: 'auth#reset_password_show', as: :reset_password_auth
+    patch 'reset-password', to: 'auth#reset_password_patch', as: :reset_password_patch_auth
+  end
+
+  # User routes
+  resources :users, only: [:index] do
+    member do
+      get 'assign_role', to: 'users#assign_role', as: :assign_role
+      patch 'assign_role', to: 'users#assign_role_patch', as: :assign_role_patch
+    end
+  end
 
 
-  # resources :roles
-  resources :roles
-  get 'roles/:id/assign_permissions', to: 'roles#assign_permissions', as: :roles_assign_permissions
-  patch 'roles/:id/assign_permissions', to: 'roles#assign_permissions_patch', as: :roles_assign_permissions_patch
+  # Role routes
+  resources :roles, only: [:index, :new, :create] do
+    member do
+      get 'assign_permissions', to: 'roles#assign_permissions', as: :assign_permissions
+      patch 'assign_permissions', to: 'roles#assign_permissions_patch', as: :assign_permissions_patch
+    end
+  end
+
+  # Permission routes
   resources :permissions
 
 end

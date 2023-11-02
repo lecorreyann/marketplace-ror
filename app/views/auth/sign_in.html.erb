@@ -5,7 +5,7 @@
     <%= flash.now[:alert] %>
   </div>
 <% end %>
-<%= form_with model: @user, url: users_sign_in_post_path do |f| %>
+<%= form_with model: @user, url: sign_in_post_auth_path do |f| %>
   <div class="form-group">
     <%= f.label :email %>
     <%= f.email_field :email,  required: true, value: 'yannlc@posteo.net', class: f.object.errors[:email].any? ? 'form-control is-invalid' : 'form-control' %>
@@ -26,11 +26,11 @@
   </div>
   <%# Link forgot password %>
   <div class="form-group">
-    <%= link_to 'Forgot password?', users_forgot_password_path %>
+    <%= link_to 'Forgot password?', forgot_password_auth_path %>
   </div>
   <div class="actions">
     <%= f.submit 'Sign In' %>
   </div>
 <% end %>
 <%# If user doesn't have account, invite to sign up %>
-<p>Don't have an account? <%= link_to 'Sign Up', users_sign_up_path %></p>
+<p>Don't have an account? <%= link_to 'Sign Up', sign_up_auth_path %></p>

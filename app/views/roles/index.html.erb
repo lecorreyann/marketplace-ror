@@ -13,7 +13,7 @@
         <tr>
           <td><%= role.name %></td>
           <td>
-            <%= link_to "Assign Permissions", roles_assign_permissions_path(role) %>
+            <%= link_to "Assign Permissions", assign_permissions_role_path(role) %>
           </td>
           <td><%= role.permissions.map(&:name).join(', ') %></td>
         </tr>

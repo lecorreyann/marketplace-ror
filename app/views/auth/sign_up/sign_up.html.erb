@@ -5,7 +5,7 @@
     <%= flash.now[:alert] %>
   </div>
 <% end %>
-<%= form_for @user, url: users_sign_up_post_path do |f| %>
+<%= form_for @user, url: sign_up_post_auth_path do |f| %>
   <div class="form-group">
     <%= f.label :first_name %>
     <%= f.text_field :first_name, required: true, value: 'Yann', class: f.object.errors[:first_name].any? ? 'form-control is-invalid' : 'form-control'  %>
@@ -56,4 +56,4 @@
   </div>
 <% end %>
 <%# If user alread has account, invite to sign in %>
-<p>Already have an account? <%= link_to 'Sign In', users_sign_in_path %></p>
+<p>Already have an account? <%= link_to 'Sign In', sign_in_auth_path %></p>
