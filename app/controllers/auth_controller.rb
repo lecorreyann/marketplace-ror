@@ -53,7 +53,7 @@ class AuthController < ApplicationController
 
   def sign_up_show
     @user = User.new
-    render :sign_up_sign_up
+    render '/auth/sign_up/sign_up'
   end
 
   def sign_up_post
