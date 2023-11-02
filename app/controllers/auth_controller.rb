@@ -3,7 +3,7 @@ class AuthController < ApplicationController
 
   def sign_in_show
     @user = User.new
-    render :sign_in
+    render 'auth/sign_in'
   end
 
   def sign_in_post
@@ -15,7 +15,7 @@ class AuthController < ApplicationController
       # User does not exist, render add error to email field
       @user ||= User.new(email: params[:user][:email])
       @user.errors.add(:email, "not found")
-      return render '/sign_in', status: :unprocessable_entity
+      return render '/auth/sign_in', status: :unprocessable_entity
     end
 
     # Check if user's password is incorrect
@@ -53,7 +53,7 @@ class AuthController < ApplicationController
 
   def sign_up_show
     @user = User.new
-    render '/sign_up/sign_up'
+    render :sign_up_sign_up
   end
 
   def sign_up_post
@@ -61,10 +61,10 @@ class AuthController < ApplicationController
 
     if @user.save
       # User registration was successful
-      render '/sign_up/sign_up_confirmation', status: :created
+      render '/auth/sign_up/sign_up_confirmation', status: :created
     else
       # User registration failed, re-render the registration form
-      render '/sign_up/sign_up', status: :unprocessable_entity
+      render '/auth/sign_up/sign_up', status: :unprocessable_entity
     end
   end
 
@@ -81,18 +81,18 @@ class AuthController < ApplicationController
     # Check if user exists
     if @user.nil?
       # User does not exist, render
-      return render '/email_validation/email_validation_token_not_found', status: :unprocessable_entity
+      return render '/auth/email_validation/email_validation_token_not_found', status: :unprocessable_entity
     end
     # Check if email has already been validated
     if @user.email_validated_at.present?
       # Email has already been validated, render
-      return render '/email_validation/email_already_validated', status: :unprocessable_entity
+      return render '/auth/email_validation/email_already_validated', status: :unprocessable_entity
     end
     token = @user.tokens.first
     # Check if token is revoked
     if token.revoked_at.present?
       # Token is revoked, render
-      return render '/email_validation/validation_email_token_revoked', status: :unprocessable_entity
+      return render '/auth/email_validation/validation_email_token_revoked', status: :unprocessable_entity
     end
     # Check if token is expired
     if token.expires_at < Time.current
@@ -104,13 +104,13 @@ class AuthController < ApplicationController
       token.save
       # Send the user a new email validation email
       UserMailer.with(user: @user, token: token).email_validation.deliver_later
-      render '/email_validation/validation_email_token_expired', status: :unprocessable_entity
+      render '/auth/email_validation/validation_email_token_expired', status: :unprocessable_entity
     # Token is valid
     else
       # Token is valid, update the user's email validation status
       @user.email_validated_at = Time.current
       if @user.save
-        render '/email_validation/email_validated', status: :ok
+        render '/auth/email_validation/email_validated', status: :ok
       else
         puts @user.errors.full_messages
       end
@@ -119,7 +119,7 @@ class AuthController < ApplicationController
 
   def forgot_password_show
     @user = User.new
-    render '/forgot_password/forgot_password'
+    render '/auth/forgot_password/forgot_password'
   end
 
   def forgot_password_post
@@ -131,7 +131,7 @@ class AuthController < ApplicationController
       # User does not exist, render add error to email field
       @user ||= User.new(email: params[:user][:email])
       @user.errors.add(:email, "not found")
-      return render '/forgot_password/forgot_password', status: :unprocessable_entity
+      return render '/auth/forgot_password/forgot_password', status: :unprocessable_entity
     end
 
     # Check user's reset password token
@@ -146,14 +146,14 @@ class AuthController < ApplicationController
     UserMailer.with(user: @user, token: last_reset_password_token).reset_password.deliver_later
 
     # Render the forgot password confirmation page
-    render '/forgot_password/forgot_password_confirmation', status: :accepted
+    render '/auth/forgot_password/forgot_password_confirmation', status: :accepted
   end
 
   def reset_password_show
     # Check if reset password token is valid
     if self.valid_reset_password_token?(token: params[:token])== true
     # Render the reset password page
-      render '/reset_password/reset_password'
+      render '/auth/reset_password/reset_password'
     end
   end
 
@@ -168,7 +168,7 @@ class AuthController < ApplicationController
       last_reset_password_token.save
       if @user && @user.update(user_params)
         # Password reset successful
-        return render '/reset_password/password_reseted', status: :accepted
+        return render '/auth/reset_password/password_reseted', status: :accepted
       else
         puts @user.errors.full_messages
       end
@@ -182,7 +182,7 @@ class AuthController < ApplicationController
     # Check if user exists
     if @user.nil?
       # User does not exist, render
-      return render '/reset_password/reset_password_token_not_found', status: :unprocessable_entity
+      return render '/auth/reset_password/reset_password_token_not_found', status: :unprocessable_entity
     end
 
     tokens_controller = TokensController.new
@@ -190,13 +190,13 @@ class AuthController < ApplicationController
     # Check if reset password token is expired
     if last_reset_password_token.expires_at < Time.current
       # Reset password token is expired, render
-      return render '/reset_password/reset_password_token_expired', status: :unprocessable_entity
+      return render '/auth/reset_password/reset_password_token_expired', status: :unprocessable_entity
     end
 
     # Check if reset password token is revoked
     if last_reset_password_token.revoked_at.present?
       # Reset password token is revoked, render
-      return render '/reset_password/reset_password_token_revoked', status: :unprocessable_entity
+      return render '/auth/reset_password/reset_password_token_revoked', status: :unprocessable_entity
     end
     return true
   end
