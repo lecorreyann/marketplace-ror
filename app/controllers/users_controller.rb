@@ -14,7 +14,7 @@ class UsersController < ApplicationController
     if @user.update(user_params)
       redirect_to users_path, notice: "Role assigned to user successfully."
     else
-      render 'assign_role'
+      render :assign_role
     end
   end
 
