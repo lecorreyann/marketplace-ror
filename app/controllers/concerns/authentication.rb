@@ -5,7 +5,7 @@ module Authentication
 
   def is_admin
     unless is_admin?
-      flash[:alert] = "You are not authorized to access this page."
+      flash.now[:alert] = "You are not authorized to access this page."
       redirect_to root_path
     end
   end
