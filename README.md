@@ -18,3 +18,7 @@
 
 - ✅ Roles
 - ✅ Permissions
+
+## Categories
+
+- ✅ CRUD

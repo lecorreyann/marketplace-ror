@@ -1,0 +1,13 @@
+<%= form_for @category do |f| %>
+  <div class="field">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :parent_id %>
+    <%= f.collection_select(:parent_id, @parent_categories, :id, :name, include_blank: true) %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

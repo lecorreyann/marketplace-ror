@@ -44,4 +44,7 @@ Rails.application.routes.draw do
   # Permission routes
   resources :permissions
 
+  # Category routes
+  resources :categories
+
 end
